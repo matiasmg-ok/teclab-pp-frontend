@@ -1,5 +1,5 @@
 export default function StopPayingHighPrices() {
-  return <div className="flex justify-around h-[21rem] bg-gradient-to-r from-blue-500 to-blue-400">
+  return <div className="flex justify-around h-[24rem] bg-gradient-to-r from-blue-500 to-blue-400">
     <div className="uppercase text-white font-semibold flex flex-col gap-4 justify-center">
       <h1 className="text-3xl font-bold">¡Dejá de pagar precios elevados!</h1>
       <div className="flex flex-col gap-2 uppercase text-xl">
