@@ -1,5 +1,15 @@
+import Footer from "../components/Footer";
+import FeaturedProducts from "../components/LandingPage/FeaturedProducts";
+import Header from "../components/LandingPage/Header";
+import StopPayingHighPrices from "../components/LandingPage/StopPayingHighPrices";
+import Navbar from "../components/Navbar";
+
 export default function LandingPage() {
   return <>
-    <h1 className={'text-5xl font-semibold'}>Frontend - Hello world</h1>
+    <Navbar />
+    <Header />
+    <FeaturedProducts />
+    <StopPayingHighPrices />
+    <Footer />
   </>
 }
