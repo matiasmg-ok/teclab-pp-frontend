@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply overflow-x-hidden min-h-screen;
+}

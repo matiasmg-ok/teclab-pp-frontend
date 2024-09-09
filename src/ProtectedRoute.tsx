@@ -4,7 +4,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   const [auth, setAuth] = useState(false);
   const fetchData = async () => {
     const token = JSON.parse(window.localStorage.getItem('token') || '');
-    const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/users/am-i-logged-in", {
+    const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/users/whoami", {
       headers: {
         Authorization: `Bearer ${token?.token}`
       },
