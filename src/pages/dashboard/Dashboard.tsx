@@ -1,4 +1,4 @@
-import { useClient } from "../utils/loggedClient";
+import { useClient } from "../../utils/loggedClient";
 
 export default function Dashboard() {
   const [{ data: user, loading, error }] = useClient('/users/whoami')
