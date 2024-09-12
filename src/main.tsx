@@ -7,6 +7,7 @@ import ProtectedRoute from './utils/ProtectedRoute'
 import Dashboard from './pages/dashboard/Dashboard'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import ProtectedAdminRoute from './utils/ProtectedAdminRoute'
+import AdminProducts from './pages/admin/AdminProducts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
       
       <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}></Route>
+      <Route path="/admin/products" element={<ProtectedAdminRoute><AdminProducts /></ProtectedAdminRoute>}></Route>
     </Routes>
   </BrowserRouter>
 )
