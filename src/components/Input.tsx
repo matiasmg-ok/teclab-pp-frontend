@@ -1,6 +1,5 @@
 import { InputHTMLAttributes } from "react";
 import { IconType } from "react-icons";
-import { MdEmail } from "react-icons/md";
 
 export default function Input({ props, Icon }: {
   props: InputHTMLAttributes<HTMLInputElement>,

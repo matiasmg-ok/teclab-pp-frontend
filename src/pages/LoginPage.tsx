@@ -4,8 +4,15 @@ import Input from "../components/Input";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useClient } from "../utils/loggedClient";
 
 export default function LoginPage() {
+
+  const [{ data: user }] = useClient('/users/whoami');
+
+  if(user) {
+    window.location.href = '/dashboard';
+  }
 
   const [userInfo, setUserInfo] = useState({
     email: '',

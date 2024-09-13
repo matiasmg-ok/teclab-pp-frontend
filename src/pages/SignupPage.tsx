@@ -4,9 +4,15 @@ import Input from "../components/Input";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import useToken from "../hooks/useToken";
+import { useClient } from "../utils/loggedClient";
 
 export default function SignupPage() {
+
+  const [{ data: user }] = useClient('/users/whoami');
+
+  if (user) {
+    window.location.href = '/dashboard';
+  }
 
   const [userInfo, setUserInfo] = useState({
     name: '',
@@ -19,7 +25,7 @@ export default function SignupPage() {
 
     e.preventDefault();
 
-    if(userInfo.password !== userInfo.repeatPassword) {
+    if (userInfo.password !== userInfo.repeatPassword) {
       return alert('Las contraseñas no coinciden');
     }
 
@@ -35,7 +41,7 @@ export default function SignupPage() {
       })
     })
 
-    if(res.status === 201) {
+    if (res.status === 201) {
       const data = await res.json();
       localStorage.setItem('token', JSON.stringify(data));
 
@@ -59,7 +65,7 @@ export default function SignupPage() {
             },
             value: userInfo.name,
             onChange: (e) => {
-              setUserInfo(prev => ({...prev, name: e.target.value}))
+              setUserInfo(prev => ({ ...prev, name: e.target.value }))
             }
           }} Icon={MdPerson} />
           <Input props={{
@@ -70,7 +76,7 @@ export default function SignupPage() {
             },
             value: userInfo.email,
             onChange: (e) => {
-              setUserInfo(prev => ({...prev, email: e.target.value}))
+              setUserInfo(prev => ({ ...prev, email: e.target.value }))
             }
           }} Icon={MdEmail} />
           <Input props={{
@@ -81,7 +87,7 @@ export default function SignupPage() {
             },
             value: userInfo.password,
             onChange: (e) => {
-              setUserInfo(prev => ({...prev, password: e.target.value}))
+              setUserInfo(prev => ({ ...prev, password: e.target.value }))
             }
           }} Icon={MdPassword} />
           <Input props={{
@@ -92,7 +98,7 @@ export default function SignupPage() {
             },
             value: userInfo.repeatPassword,
             onChange: (e) => {
-              setUserInfo(prev => ({...prev, repeatPassword: e.target.value}))
+              setUserInfo(prev => ({ ...prev, repeatPassword: e.target.value }))
             }
           }} Icon={MdPassword} />
           <button className="py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Registrarse</button>
