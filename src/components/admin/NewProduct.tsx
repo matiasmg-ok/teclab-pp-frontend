@@ -16,7 +16,7 @@ export default function NewProduct() {
     group: "",
     description: "",
     price: 0,
-    image: new Blob()
+    image: new File([], "")
   });
 
   if (loading) {
@@ -44,17 +44,19 @@ export default function NewProduct() {
     formData.append('group', productData.group);
     formData.append('description', productData.description);
     formData.append('price', productData.price.toString());
-    formData.append('image', productData.image as Blob);
+    formData.append('image', productData.image);
 
-    const res = await client.post('/products', formData);
+    const res = await client.post('/products', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 
     if (res.status === 201) {
-      window.location.href = '/admin/products';
+      return window.location.href = '/admin/products';
     }
-
     alert('Error al crear el producto');
 
-    console.log(res);
   }
 
   return <AdminLayout user={user}>
@@ -63,7 +65,7 @@ export default function NewProduct() {
         <form onSubmit={submitProduct} className="flex flex-col gap-2 items-center">
           <h1 className={'text-4xl font-roboto font-medium text-black dark:text-white mb-5'}>Nuevo producto</h1>
           <div className="flex flex-col gap-2 w-[19rem]">
-            <label>Nombre del producto</label>
+            <label>Nombre</label>
             <AdminInput props={{
               type: 'text',
               placeholder: 'Apple Watch...',
@@ -74,7 +76,7 @@ export default function NewProduct() {
             }} Icon={MdTextFields} />
           </div>
           <div className="flex flex-col gap-2 w-[19rem]">
-            <label>Grupo/Tipo de producto</label>
+            <label>Grupo</label>
             <AdminInput props={{
               type: 'text',
               placeholder: 'Smartwatch...',
@@ -85,7 +87,7 @@ export default function NewProduct() {
             }} Icon={MdTypeSpecimen} />
           </div>
           <div className="flex flex-col gap-2 w-[19rem]">
-            <label>Descripción corta</label>
+            <label>Descripción</label>
             <AdminTextarea props={{
               type: 'text',
               placeholder: 'Producto de Apple...',
@@ -96,7 +98,7 @@ export default function NewProduct() {
             }} />
           </div>
           <div className="flex flex-col gap-2 w-[19rem]">
-            <label>Precio del producto</label>
+            <label>Precio</label>
             <AdminInput props={{
               type: 'text',
               placeholder: '249',
