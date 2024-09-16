@@ -1,4 +1,4 @@
-import { MdAdd, MdCancel, MdDelete, MdPhoto, MdSave, MdTextFields, MdTypeSpecimen } from "react-icons/md";
+import { MdCancel, MdDelete, MdPhoto, MdSave, MdTextFields, MdTypeSpecimen } from "react-icons/md";
 import AdminLayout from "../../components/admin/AdminLayout";
 import Button from "../../components/Button";
 import { useClient, client } from "../../utils/loggedClient";
