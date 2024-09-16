@@ -10,6 +10,7 @@ import ProtectedAdminRoute from './utils/ProtectedAdminRoute'
 import AdminProducts from './pages/admin/AdminProducts'
 import NewProduct from './components/admin/NewProduct'
 import EditProduct from './components/admin/EditProduct'
+import Products from './pages/Products'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/products" element={<Products />}></Route>
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
       
       <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}></Route>

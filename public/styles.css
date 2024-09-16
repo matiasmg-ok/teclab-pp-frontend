@@ -576,6 +576,11 @@ video {
   left: 0.5rem;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -602,6 +607,10 @@ video {
 
 .ml-1 {
   margin-left: 0.25rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
 }
 
 .inline-block {
@@ -722,6 +731,10 @@ video {
 
 .w-\[12rem\] {
   width: 12rem;
+}
+
+.w-\[40rem\] {
+  width: 40rem;
 }
 
 .cursor-pointer {
@@ -1065,6 +1078,26 @@ video {
   outline-offset: 2px;
 }
 
+.outline-dotted {
+  outline-style: dotted;
+}
+
+.outline-4 {
+  outline-width: 4px;
+}
+
+.outline-8 {
+  outline-width: 8px;
+}
+
+.outline-blue-200 {
+  outline-color: #bfdbfe;
+}
+
+.outline-blue-400 {
+  outline-color: #60a5fa;
+}
+
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1116,6 +1149,11 @@ body {
 
   .md\:mb-32 {
     margin-bottom: 8rem;
+  }
+
+  .md\:px-20 {
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 }
 
