@@ -111,8 +111,8 @@ export default function EditProduct() {
       <AdminLayout user={user}>
         <div className="flex flex-col gap-2 py-4 px-4">
           <div className="flex flex-col gap-4">
-            <form onSubmit={saveProduct} className="flex flex-col gap-2 items-center">
-              <h1 className={'text-4xl font-roboto font-medium text-black dark:text-white mb-5'}>Nuevo producto</h1>
+            <form onSubmit={saveProduct} className="flex flex-col gap-2 items-center text-black dark:text-white">
+              <h1 className={'text-4xl font-roboto font-medium text-black dark:text-white mb-5'}>Editar producto</h1>
               <div className="flex flex-col gap-2 w-[19rem]">
                 <label>
                   Nombre

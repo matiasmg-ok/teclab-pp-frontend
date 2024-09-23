@@ -1,4 +1,4 @@
-import { MdAdd, MdCancel, MdPhoto, MdTextFields, MdTypeSpecimen } from "react-icons/md";
+import { MdAdd, MdCancel, MdPhoto, MdSafetyCheck, MdTextFields, MdTypeSpecimen } from "react-icons/md";
 import AdminLayout from "../../components/admin/AdminLayout";
 import Button from "../../components/Button";
 import { useClient, client } from "../../utils/loggedClient";
@@ -7,9 +7,11 @@ import { BiDollar } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import AdminTextarea from "./AdminTextarea";
+import ConfirmationModal from "../modals/ConfirmationModal";
 
 export default function NewProduct() {
   const [{ data: user, loading, error }] = useClient('/users/whoami');
+  const [requesting, setRequesting] = useState(false);
 
   const [productData, setProductData] = useState({
     name: "",
@@ -34,10 +36,14 @@ export default function NewProduct() {
   const submitProduct = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(!productData.name || !productData.group || !productData.description || !productData.price || !productData.image) {
+    if (!productData.name || !productData.group || !productData.description || !productData.price || !productData.image) {
       return alert('Todos los campos son obligatorios');
     }
 
+    setRequesting(true);
+  }
+
+  const createProduct = async () => {
     const formData = new FormData();
 
     formData.append('name', productData.name);
@@ -56,13 +62,27 @@ export default function NewProduct() {
       return window.location.href = '/admin/products';
     }
     alert('Error al crear el producto');
-
   }
 
   return <AdminLayout user={user}>
+    {
+      requesting &&
+      <ConfirmationModal
+        verificationMethod={"random_code"}
+        Icon={MdSafetyCheck}
+        title={"¿Seguro que quieres crear este producto?"}
+        onConfirm={() => {
+          setRequesting(false);
+          createProduct();
+        }}
+        onCancel={() => {
+          setRequesting(false);
+        }}
+      />
+    }
     <div className="flex flex-col gap-2 py-4 px-4">
       <div className="flex flex-col gap-4">
-        <form onSubmit={submitProduct} className="flex flex-col gap-2 items-center">
+        <form onSubmit={submitProduct} className="flex flex-col gap-2 items-center text-black dark:text-white">
           <h1 className={'text-4xl font-roboto font-medium text-black dark:text-white mb-5'}>Nuevo producto</h1>
           <div className="flex flex-col gap-2 w-[19rem]">
             <label>Nombre</label>
@@ -103,7 +123,7 @@ export default function NewProduct() {
               type: 'text',
               placeholder: '249',
               onChange: e => {
-                if(isNaN(Number(e.target.value))) return;
+                if (isNaN(Number(e.target.value))) return;
                 setProductData((prev) => ({ ...prev, price: Number(e.target.value) }));
               },
               value: productData.price

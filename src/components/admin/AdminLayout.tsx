@@ -36,7 +36,7 @@ export default function AdminLayout({ user, children }: { user: User, children: 
         </div>
       </div>
     </aside>
-    <div className={'w-full dark:bg-slate-900 text-white font-roboto overflow-y-auto h-screen'}>
+    <div className={'w-full dark:bg-slate-900 text-white font-roboto overflow-y-auto h-screen relative'}>
       {children}
     </div>
   </div>
