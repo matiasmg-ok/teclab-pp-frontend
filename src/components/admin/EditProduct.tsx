@@ -1,4 +1,4 @@
-import { MdCancel, MdDelete, MdPhoto, MdSave, MdTextFields, MdTypeSpecimen } from "react-icons/md";
+import { MdCancel, MdDelete, MdDeleteForever, MdPhoto, MdSafetyCheck, MdSave, MdTextFields, MdTypeSpecimen } from "react-icons/md";
 import AdminLayout from "../../components/admin/AdminLayout";
 import Button from "../../components/Button";
 import { useClient, client } from "../../utils/loggedClient";
@@ -7,6 +7,7 @@ import { BiDollar } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AdminTextarea from "./AdminTextarea";
+import ConfirmationModal from "../modals/ConfirmationModal";
 
 export default function EditProduct() {
 
@@ -23,6 +24,10 @@ export default function EditProduct() {
     price: product?.price,
     image: new File([], "")
   });
+
+  const [requestingUpdate, setRequesting] = useState(false);
+  const [requestingDelete, setRequestingDelete] = useState(false);
+
 
   useEffect(() => {
     if (product) {
@@ -52,20 +57,16 @@ export default function EditProduct() {
     setProductData((prev) => ({ ...prev, image: e.target.files[0] }));
   }
 
-  const saveProduct = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!productData.name || !productData.group || !productData.description || !productData.price || !productData.image) {
       return alert('Todos los campos son obligatorios');
     }
+    setRequesting(true);
+  }
 
-    const code = Math.floor(Math.random() * 10000)
-
-    const propmtRes = prompt(`Esto va a sobreescribir el producto, si estás seguro de actualizarlo escribe el siguiente código: ${code}`);
-
-    if(Number(propmtRes) !== code) {
-      return alert("Código incorrecto. No se ha actualizado el producto.");
-    }
-
+  const saveProduct = async () => {
     const formData = new FormData();
 
     formData.append('name', productData.name);
@@ -89,15 +90,6 @@ export default function EditProduct() {
   }
 
   const deleteProduct = async () => {
-
-    const code = Math.floor(Math.random() * 10000)
-
-    const propmtRes = prompt(`Para confirmar eliminación, escribe el siguiente código: ${code}`);
-
-    if(Number(propmtRes) !== code) {
-      return alert("Código incorrecto. No se ha eliminado el producto.");
-    }
-
     const res = await client.delete('/products/' + product.id);
     if (res.status === 200) {
       return window.location.href = '/admin/products';
@@ -109,9 +101,40 @@ export default function EditProduct() {
     {
       product &&
       <AdminLayout user={user}>
+        {
+          requestingUpdate &&
+          <ConfirmationModal
+            verificationMethod={"random_code"}
+            Icon={MdSafetyCheck}
+            title={"¿Seguro que quieres editar este producto?"}
+            onConfirm={() => {
+              setRequesting(false);
+              saveProduct();
+            }}
+            onCancel={() => {
+              setRequesting(false);
+            }}
+          />
+        }
+        {
+          requestingDelete &&
+          <ConfirmationModal
+            verificationMethod={"random_code"}
+            Icon={MdDeleteForever}
+            title={"¿Seguro que quieres eliminar este producto?"}
+            onConfirm={() => {
+              setRequestingDelete(false);
+              deleteProduct();
+            }}
+            onCancel={() => {
+              setRequestingDelete(false);
+            }}
+          />
+        }
+
         <div className="flex flex-col gap-2 py-4 px-4">
           <div className="flex flex-col gap-4">
-            <form onSubmit={saveProduct} className="flex flex-col gap-2 items-center text-black dark:text-white">
+            <form onSubmit={submitForm} className="flex flex-col gap-2 items-center text-black dark:text-white">
               <h1 className={'text-4xl font-roboto font-medium text-black dark:text-white mb-5'}>Editar producto</h1>
               <div className="flex flex-col gap-2 w-[19rem]">
                 <label>
@@ -185,7 +208,7 @@ export default function EditProduct() {
                 <Link to="/admin/products">
                   <Button> <MdCancel size={24} /> Cancelar</Button>
                 </Link>
-                <Button type="reset" onClick={deleteProduct}> <MdDelete size={24} /> Eliminar</Button>
+                <Button type="reset" onClick={() => setRequestingDelete(true)}> <MdDelete size={24} /> Eliminar</Button>
                 <Button type="submit"> <MdSave size={24} /> Guardar</Button>
               </div>
             </form>
