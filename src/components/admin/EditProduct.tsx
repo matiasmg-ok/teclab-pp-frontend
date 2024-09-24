@@ -1,4 +1,4 @@
-import { MdCancel, MdDelete, MdDeleteForever, MdPhoto, MdSafetyCheck, MdSave, MdTextFields, MdTypeSpecimen } from "react-icons/md";
+import { MdCancel, MdDelete, MdDeleteForever, MdError, MdPhoto, MdSafetyCheck, MdSave, MdTextFields, MdTypeSpecimen } from "react-icons/md";
 import AdminLayout from "../../components/admin/AdminLayout";
 import Button from "../../components/Button";
 import { useClient, client } from "../../utils/loggedClient";
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AdminTextarea from "./AdminTextarea";
 import ConfirmationModal from "../modals/ConfirmationModal";
+import MessageModal from "../modals/MessageModal";
 
 export default function EditProduct() {
 
@@ -27,7 +28,7 @@ export default function EditProduct() {
 
   const [requestingUpdate, setRequesting] = useState(false);
   const [requestingDelete, setRequestingDelete] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (product) {
@@ -61,7 +62,7 @@ export default function EditProduct() {
     e.preventDefault();
 
     if (!productData.name || !productData.group || !productData.description || !productData.price || !productData.image) {
-      return alert('Todos los campos son obligatorios');
+      return setErrorMessage('Todos los campos son obligatorios');
     }
     setRequesting(true);
   }
@@ -86,7 +87,7 @@ export default function EditProduct() {
     if (res.status === 200) {
       return window.location.href = '/admin/products';
     }
-    alert('Error al actualizar el producto');
+    setErrorMessage('Error al actualizar el producto');
   }
 
   const deleteProduct = async () => {
@@ -94,7 +95,7 @@ export default function EditProduct() {
     if (res.status === 200) {
       return window.location.href = '/admin/products';
     }
-    alert('Error al eliminar el producto');
+    setErrorMessage('Error al eliminar el producto');
   }
 
   return <>
@@ -131,7 +132,13 @@ export default function EditProduct() {
             }}
           />
         }
-
+        {
+          errorMessage && <MessageModal
+            message={errorMessage}
+            Icon={MdError}
+            onConfirm={() => setErrorMessage("")}
+          />
+        }
         <div className="flex flex-col gap-2 py-4 px-4">
           <div className="flex flex-col gap-4">
             <form onSubmit={submitForm} className="flex flex-col gap-2 items-center text-black dark:text-white">

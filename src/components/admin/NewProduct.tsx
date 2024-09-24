@@ -1,4 +1,4 @@
-import { MdAdd, MdCancel, MdPhoto, MdSafetyCheck, MdTextFields, MdTypeSpecimen } from "react-icons/md";
+import { MdAdd, MdCancel, MdError, MdPhoto, MdSafetyCheck, MdTextFields, MdTypeSpecimen } from "react-icons/md";
 import AdminLayout from "../../components/admin/AdminLayout";
 import Button from "../../components/Button";
 import { useClient, client } from "../../utils/loggedClient";
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import AdminTextarea from "./AdminTextarea";
 import ConfirmationModal from "../modals/ConfirmationModal";
+import MessageModal from "../modals/MessageModal";
 
 export default function NewProduct() {
   const [{ data: user, loading, error }] = useClient('/users/whoami');
@@ -21,6 +22,8 @@ export default function NewProduct() {
     image: new File([], "")
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   if (loading) {
     return <p>Cargando...</p>
   }
@@ -28,6 +31,7 @@ export default function NewProduct() {
   if (error) {
     return <p>{error.message}</p>
   }
+
 
   const onFileChange = (e: any) => {
     setProductData((prev) => ({ ...prev, image: e.target.files[0] }));
@@ -37,7 +41,7 @@ export default function NewProduct() {
     e.preventDefault();
 
     if (!productData.name || !productData.group || !productData.description || !productData.price || !productData.image) {
-      return alert('Todos los campos son obligatorios');
+      return setErrorMessage('Todos los campos son obligatorios');
     }
 
     setRequesting(true);
@@ -61,7 +65,7 @@ export default function NewProduct() {
     if (res.status === 201) {
       return window.location.href = '/admin/products';
     }
-    alert('Error al crear el producto');
+    setErrorMessage('Error al crear el producto');
   }
 
   return <AdminLayout user={user}>
@@ -78,6 +82,13 @@ export default function NewProduct() {
         onCancel={() => {
           setRequesting(false);
         }}
+      />
+    }
+    {
+      errorMessage && <MessageModal
+        message={errorMessage}
+        Icon={MdError}
+        onConfirm={() => setErrorMessage("")}
       />
     }
     <div className="flex flex-col gap-2 py-4 px-4">
