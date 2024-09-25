@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { User } from "../../types/User";
 import { IconType } from "react-icons";
 import { Link } from "react-router-dom";
-import { MdCategory, MdHome, MdKeyboardArrowRight, MdLogout, MdSell } from "react-icons/md";
+import { MdCategory, MdHome, MdImage, MdKeyboardArrowRight, MdLogout, MdSell } from "react-icons/md";
 
 function SidebarOption({ Icon, option, url, includeArrow }: { Icon: IconType, option: string, url: string, includeArrow?: boolean }) {
   return <Link to={url}>
@@ -28,6 +28,7 @@ export default function AdminLayout({ user, children }: { user: User, children: 
       <div className="flex flex-col justify-between h-[calc(100vh-10rem)]">
         <div className="flex flex-col gap-2">
           <SidebarOption includeArrow={true} Icon={MdHome} option="Inicio" url="/admin" />
+          <SidebarOption includeArrow={true} Icon={MdImage} option="Banners" url="/admin/advertisements" />
           <SidebarOption includeArrow={true} Icon={MdCategory} option="Productos" url="/admin/products" />
           <SidebarOption includeArrow={true} Icon={MdSell} option="Pedidos" url="/admin/orders" />
         </div>

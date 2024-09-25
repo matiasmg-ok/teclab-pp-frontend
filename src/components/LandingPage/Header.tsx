@@ -1,9 +1,30 @@
+import { useEffect, useState } from "react"
+import { useUnloggedClient } from "../../utils/unloggedClient"
+import { Link } from "react-router-dom"
+
 export default function Header() {
-  return <>
+
+  const [{ data: advertisements }] = useUnloggedClient('/advertisements')
+  const [currentAdvertisementIndex, setCurrentAdvertisementIndex] = useState(0)
+
+  useEffect(() => {
+    setInterval(() => {
+      if (!advertisements || advertisements.length === 0) return
+
+      if (currentAdvertisementIndex >= advertisements.length - 1) {
+        return setCurrentAdvertisementIndex(0)
+      }
+
+      return setCurrentAdvertisementIndex(prev => prev + 1)
+    }, 5000)
+  })
+
+  return advertisements?.length ? <>
     <header>
-      <div className={'w-screen h-[30rem] bg-blue-400 flex items-center justify-center'}>
-        <p className="text-4xl text-blue-300">ESTO ES UN PLACEHOLDER [ADVERTISEMENT]</p>
-      </div>
+      <Link to={`${advertisements[currentAdvertisementIndex].redirectUrl}`}>
+        <img src={advertisements && `${import.meta.env.VITE_BACKEND_URL}/${advertisements[currentAdvertisementIndex]?.imageUrl}` || ''} className={'w-full mx-auto max-w-[1280px] h-[25rem] flex items-center justify-center object-contain'}>
+        </img>
+      </Link>
     </header>
-  </>
+  </> : <></>
 }

@@ -11,6 +11,8 @@ import AdminProducts from './pages/admin/AdminProducts'
 import NewProduct from './components/admin/NewProduct'
 import EditProduct from './components/admin/EditProduct'
 import Products from './pages/Products'
+import AdminBanners from './pages/admin/AdminBanners'
+import NewBanner from './components/admin/NewBanner'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -22,9 +24,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
       
       <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}></Route>
+      
       <Route path="/admin/products" element={<ProtectedAdminRoute><AdminProducts /></ProtectedAdminRoute>}></Route>
       <Route path="/admin/new-product" element={<ProtectedAdminRoute><NewProduct /></ProtectedAdminRoute>}></Route>
       <Route path="/admin/edit-product" element={<ProtectedAdminRoute><EditProduct /></ProtectedAdminRoute>}></Route>
+      
+      <Route path="/admin/advertisements" element={<ProtectedAdminRoute><AdminBanners /></ProtectedAdminRoute>}></Route>
+      <Route path="/admin/new-advertisement" element={<ProtectedAdminRoute><NewBanner /></ProtectedAdminRoute>}></Route>
     </Routes>
   </BrowserRouter>
 )
