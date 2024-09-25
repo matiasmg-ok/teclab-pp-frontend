@@ -5,9 +5,12 @@ import ProductCard from "./ProductCard";
 
 export default function ProductList() {
 
-  const [{ data }] = useUnloggedClient<Product[]>('/products');
   const [{ data: cotization }] = useUnloggedClient<{ price: number, updatedAt: string }>('/usd-cotization');
-  const [search, setSearch] = useState<string>('');
+  
+  const url = new URLSearchParams(window.location.search);
+  
+  const [{ data }] = useUnloggedClient<Product[]>(url.get('search') ? `/products?search=${url.get('search')}` : '/products');
+  const [search, setSearch] = useState<string>(url.get('search') || '');
 
   const [products, setProducts] = useState<Product[]>();
 
