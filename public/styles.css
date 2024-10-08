@@ -560,14 +560,6 @@ video {
   top: 50%;
 }
 
-.left-10 {
-  left: 2.5rem;
-}
-
-.top-10 {
-  top: 2.5rem;
-}
-
 .z-10 {
   z-index: 10;
 }
@@ -607,10 +599,6 @@ video {
 
 .mt-5 {
   margin-top: 1.25rem;
-}
-
-.mb-10 {
-  margin-bottom: 2.5rem;
 }
 
 .inline-block {
@@ -677,10 +665,6 @@ video {
   height: 100vh;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .min-h-\[15rem\] {
   min-height: 15rem;
 }
@@ -709,10 +693,6 @@ video {
   width: 14rem;
 }
 
-.w-\[15rem\] {
-  width: 15rem;
-}
-
 .w-\[19rem\] {
   width: 19rem;
 }
@@ -727,6 +707,10 @@ video {
 
 .w-\[29rem\] {
   width: 29rem;
+}
+
+.w-\[30rem\] {
+  width: 30rem;
 }
 
 .w-\[40rem\] {
@@ -747,14 +731,6 @@ video {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[30rem\] {
-  width: 30rem;
-}
-
-.w-10 {
-  width: 2.5rem;
 }
 
 .min-w-\[20rem\] {
@@ -811,16 +787,16 @@ video {
   gap: 0.5rem;
 }
 
+.gap-20 {
+  gap: 5rem;
+}
+
 .gap-4 {
   gap: 1rem;
 }
 
 .gap-5 {
   gap: 1.25rem;
-}
-
-.gap-20 {
-  gap: 5rem;
 }
 
 .self-start {
@@ -1000,14 +976,6 @@ video {
   padding-bottom: 1.25rem;
 }
 
-.pl-10 {
-  padding-left: 2.5rem;
-}
-
-.pr-10 {
-  padding-right: 2.5rem;
-}
-
 .text-center {
   text-align: center;
 }
@@ -1056,10 +1024,6 @@ video {
 
 .font-semibold {
   font-weight: 600;
-}
-
-.font-light {
-  font-weight: 300;
 }
 
 .uppercase {

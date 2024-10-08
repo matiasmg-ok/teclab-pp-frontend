@@ -1,10 +1,7 @@
-import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
-import FeaturedProducts from "../components/LandingPage/FeaturedProducts";
-import Header from "../components/LandingPage/Header";
-import StopPayingHighPrices from "../components/LandingPage/StopPayingHighPrices";
 import Navbar from "../components/Navbar";
 import { Product } from "../types/Product";
+import { client, useClient } from "../utils/loggedClient";
 import { useUnloggedClient } from "../utils/unloggedClient";
 import { MdArrowBackIos } from "react-icons/md";
 
@@ -12,12 +9,26 @@ export default function ProductPage() {
   const url = new URLSearchParams(window.location.search);
   const productId = url.get('id');
 
+  const [{ data: user }] = useClient('/users/whoami');
   const [{ data: product }] = useUnloggedClient<Product>(`/products/${productId}`);
   const [{ data: cotization }] = useUnloggedClient<{ price: number, updatedAt: string }>('/usd-cotization');
 
 
   if (!product) {
     return <p>Cargando...</p>
+  }
+
+  function createOrder() {
+    if (!product) return;
+
+    if (!user) {
+      window.localStorage.setItem('login-redirect', JSON.stringify({
+        url: window.location.href,
+        date: new Date()
+      }));
+
+      return window.location.href = '/login';
+    }
   }
 
   return (
