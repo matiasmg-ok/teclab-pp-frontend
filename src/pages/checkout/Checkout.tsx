@@ -19,10 +19,10 @@ export default function Checkout() {
     <h1>Checkout</h1>
     <div>
       <div>
-
+        {/* here comes the form */}
       </div>
       <div>
-
+        {/* the preview of the product */}
       </div>
     </div>
     <Footer />
