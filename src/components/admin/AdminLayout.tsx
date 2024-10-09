@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { User } from "../../types/User";
 import { IconType } from "react-icons";
 import { Link } from "react-router-dom";
-import { MdCategory, MdHome, MdImage, MdKeyboardArrowRight, MdLogout, MdSell } from "react-icons/md";
+import { MdCategory, MdHome, MdImage, MdKeyboardArrowRight, MdLogout, MdSell, MdWeb } from "react-icons/md";
 
 function SidebarOption({ Icon, option, url, includeArrow }: { Icon: IconType, option: string, url: string, includeArrow?: boolean }) {
   return <Link to={url}>
@@ -19,6 +19,12 @@ function SidebarOption({ Icon, option, url, includeArrow }: { Icon: IconType, op
 }
 
 export default function AdminLayout({ user, children }: { user: User, children: ReactNode }) {
+
+  function logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+
   return <div className={'flex'}>
     <aside className={'w-[20rem] min-h-screen bg-blue-100 dark:bg-black'}>
       <div className="flex items-center justify-center">
@@ -33,7 +39,10 @@ export default function AdminLayout({ user, children }: { user: User, children: 
           <SidebarOption includeArrow={true} Icon={MdSell} option="Pedidos" url="/admin/orders" />
         </div>
         <div className="flex flex-col gap-2">
-          <SidebarOption Icon={MdLogout} option="Cerrar sesión" url="/logout" />
+          <SidebarOption Icon={MdWeb} option="Ir a web principal" url="/" />
+          <div onClick={logout}>
+            <SidebarOption Icon={MdLogout} option="Cerrar sesión" url="#" />
+          </div>
         </div>
       </div>
     </aside>

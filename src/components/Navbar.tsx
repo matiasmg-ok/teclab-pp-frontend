@@ -14,6 +14,11 @@ export default function Navbar() {
 
   const [optionsExpanded, setOptionsExpanded] = useState(false);
 
+  function logout(){
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+
   return <>
     <nav className={'w-screen flex items-center h-[5rem] px-10 justify-between'}>
       <Link to="/">
@@ -40,7 +45,7 @@ export default function Navbar() {
                       user.profile === 'admin' ? <Link target="_blank" className="w-full flex flex-col" to="/admin"><MenuButton> <MdDashboard /> Administrar </MenuButton></Link> : <MenuButton> <MdShoppingCart /> Mis compras</MenuButton>
                     }
 
-                    <MenuButton> <MdLogout /> Cerrar sesión</MenuButton>
+                    <MenuButton onClick={logout}> <MdLogout /> Cerrar sesión</MenuButton>
                   </div>
                 </div>
               }
