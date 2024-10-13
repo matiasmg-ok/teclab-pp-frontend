@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { Product } from "../types/Product";
@@ -29,6 +30,8 @@ export default function ProductPage() {
 
       return window.location.href = '/login';
     }
+
+    return window.location.href = '/checkout?productId=' + product.id;
   }
 
   return (
@@ -46,7 +49,7 @@ export default function ProductPage() {
           <h3 className={'font-semibold text-2xl'}>USD {product.price}</h3>
           <p className="text-lg font-medium">AR${(product.price * cotization?.price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} <span className="italic text-sm">(TC: ${cotization?.price}/usd)</span></p>
           <p>{product.description}</p>
-          <button className="w-[7rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Comprar</button>
+          <button onClick={createOrder} className="w-[7rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Comprar</button>
         </div>
       </div>
       <Footer />
