@@ -3,8 +3,16 @@ import Footer from "../../components/Footer";
 import Input from "../../components/Input";
 import Navbar from "../../components/Navbar";
 import { Product } from "../../types/Product";
-import { useClient } from "../../utils/loggedClient";
+import { client, useClient } from "../../utils/loggedClient";
 import { useUnloggedClient } from "../../utils/unloggedClient";
+import { useState } from "react";
+
+type OrderData = {
+  province: string
+  city: string
+  zip: string
+  shippingAddress: string
+}
 
 export default function Checkout() {
 
@@ -22,26 +30,95 @@ export default function Checkout() {
     window.location.href = '/'
   }
 
+  const [currency, setCurrency] = useState<'usd' | 'ars'>('usd')
+  const [orderData, setOrderData] = useState<OrderData>({
+    province: '',
+    city: '',
+    zip: '',
+    shippingAddress: ''
+  });
+
+  function createOrder() {
+    
+  }
+
   return product && cotization && <>
     <Navbar />
     <h1 className={'text-center font-roboto text-4xl font-semibold'}>Checkout</h1>
-    <div>
-      <form className={'flex'}>
-        <div className="flex flex-col gap-1">
-          <p>Calle y número</p>
-          <Input Icon={MdLocalShipping} props={{
-            placeholder: 'Calle y número',
-          }} />
+    <div className="flex flex-row-reverse w-full justify-center mt-10">
+      <form className={'flex flex-col px-10 font-roboto'}>
+        <div className="w-[15rem] flex flex-col gap-2">
+          <div className="flex gap-1 items-center">
+            <div className="flex flex-col gap-1">
+              <p>Provincia</p>
+              <Input props={{
+                placeholder: 'Provincia',
+                value: orderData.province,
+                onChange: (e) => {
+                  setOrderData((prev) => ({ ...prev, province: e.target.value }))
+                }
+              }} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <p>Localidad/Ciudad</p>
+              <Input props={{
+                placeholder: 'Localidad/Ciudad',
+                value: orderData.city,
+                onChange: (e) => {
+                  setOrderData((prev) => ({ ...prev, city: e.target.value }))
+                }
+              }} />
+            </div>
+          </div>
+          <div className="flex gap-1 items-center">
+            <div className="flex flex-col gap-1">
+              <p>Calle y número</p>
+              <Input props={{
+                placeholder: 'Calle y número',
+                value: orderData.shippingAddress,
+                onChange: (e) => {
+                  setOrderData((prev) => ({ ...prev, shippingAddress: e.target.value }))
+                }
+              }} />
+            </div>
+            <div className="flex flex-col gap-1">
+              <p>Código postal</p>
+              <Input props={{
+                placeholder: 'Código postal',
+                value: orderData.zip,
+                onChange: (e) => {
+                  setOrderData((prev) => ({ ...prev, zip: e.target.value }))
+                }
+              }} />
+            </div>
+          </div>
         </div>
-      </form>
-      <div>
-        <img src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
+        <div className="flex flex-col gap-1 mt-2 w-[18rem]">
+          <p>Moneda a pagar</p>
+          <div className="flex flex-col gap-2">
+            <div onClick={() => setCurrency('usd')} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 cursor-pointer items-center ${currency === 'usd' ? 'border-blue-400' : 'border-blue-100'}`}>
+              <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${currency === 'usd' ? 'bg-blue-400' : 'bg-blue-200'}`}></div>
+              <p><span className="text-sm font-bold bg-blue-200 p-1 px-4 rounded-full">USD</span> Dólar estadounidense</p>
+            </div>
+            <div onClick={() => setCurrency('ars')} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 cursor-pointer items-center ${currency === 'ars' ? 'border-blue-400' : 'border-blue-100'}`}>
+              <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${currency === 'ars' ? 'bg-blue-400' : 'bg-blue-200'}`}></div>
+              <p><span className="text-sm font-bold bg-blue-200 p-1 px-4 rounded-full">ARS</span> Peso argentino</p>
+            </div>
+          </div>
+        </div>
+        <p className="italic text-sm mt-2 max-w-[28rem]">Todos los pagos se realizan con transferencia bancaria local argentina. Ya sea en dólares o pesos argentinos.</p>
+        <div className="flex gap-2">
+          <button onClick={() => { }} className="w-[15rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Cancelar</button>
+          <button onClick={() => { }} className="w-[15rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Pagar</button>
+        </div>
+      </form >
+      <div className="border-4 rounded-lg p-4 border-blue-400 m-4">
+        <img className="w-[20rem]" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
         <p>{product.name}</p>
-        <p>{product.description}</p>
-        <p>${product.price}</p>
-        <p className="text-lg font-medium">AR${(product.price * cotization?.price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} <span className="italic text-sm">(TC: ${cotization?.price}/usd)</span></p>
+        <p className="text-lg font-medium">TOTAL USD ${Math.floor(product.price)}</p>
+        <p className="text-lg font-medium">TOTAL ARS ${(product.price * cotization?.price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} <span className="italic text-sm">(TC: ${cotization?.price}/usd)</span></p>
       </div>
-    </div>
+    </div >
     <Footer />
   </>
 }
