@@ -35,7 +35,7 @@ export default function Navbar() {
                 <MdPerson size={24} />
               </div>
               {
-                optionsExpanded && <div className="w-[14rem] fixed z-50 top-[5rem] right-[1.5rem] p-5 rounded-md bg-blue-200">
+                optionsExpanded && <div className="w-[14rem] absolute z-50 top-[5rem] right-[1.5rem] p-5 rounded-md bg-blue-200">
                   <p className="text-md text-center mb-2 break-words">Hola, {user.name}</p>
                   <div className="flex flex-col gap-2">
                     {
