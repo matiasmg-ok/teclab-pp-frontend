@@ -1,4 +1,4 @@
-import { MdLocalShipping } from "react-icons/md";
+import { MdCheck, MdError } from "react-icons/md";
 import Footer from "../../components/Footer";
 import Input from "../../components/Input";
 import Navbar from "../../components/Navbar";
@@ -6,6 +6,9 @@ import { Product } from "../../types/Product";
 import { client, useClient } from "../../utils/loggedClient";
 import { useUnloggedClient } from "../../utils/unloggedClient";
 import { useState } from "react";
+import MessageModal from "../../components/modals/MessageModal";
+import { IconType } from "react-icons";
+import { IoMdClock } from "react-icons/io";
 
 type OrderData = {
   province: string
@@ -38,15 +41,80 @@ export default function Checkout() {
     shippingAddress: ''
   });
 
-  function createOrder() {
-    
+  type PopupContent = {
+    message: string
+    Icon: IconType
+    show: boolean
+    hideAcceptButton?: boolean
+  }
+
+  const [popupContent, setPopupContent] = useState<PopupContent>({
+    message: '',
+    Icon: MdCheck,
+    show: false,
+    hideAcceptButton: true
+  });
+
+  async function createOrder() {
+
+    if(!product){
+      return;
+    }
+
+    if(!orderData.province || !orderData.city || !orderData.zip || !orderData.shippingAddress) {
+      return setPopupContent({
+        message: 'Todos los campos son obligatorios',
+        Icon: MdError,
+        show: true,
+        hideAcceptButton: false
+      });
+    }
+
+    setPopupContent({
+      message: 'Estamos creando tu orden... \n Te redirecionaremos en unos instantes, no cierres esta página',
+      Icon: IoMdClock,
+      show: true,
+      hideAcceptButton: true
+    });
+
+    const res = await client.post('/orders', {
+      ...orderData,
+      additionalNotes: '',
+      productsIds: [product.id],
+      currency: currency
+    });
+
+    if(res.status !== 201) {
+      setPopupContent({
+        message: 'Error al crear la orden, redireccionando a Inicio...',
+        Icon: MdError,
+        show: true,
+        hideAcceptButton: false
+      });
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 3000)
+    }
+
+    if(res.status === 201) {
+      return window.location.href = '/dashboard/orders/' + res.data.id;
+    }
+
   }
 
   return product && cotization && <>
     <Navbar />
+    {
+      popupContent.show && <MessageModal
+        message={popupContent.message}
+        Icon={popupContent.Icon}
+        onConfirm={() => setPopupContent((prev) => ({ ...prev, show: false }))}
+        hideAcceptButton={popupContent.hideAcceptButton}
+      />
+    }
     <h1 className={'text-center font-roboto text-4xl font-semibold'}>Checkout</h1>
     <div className="flex flex-row-reverse w-full justify-center mt-10">
-      <form className={'flex flex-col px-10 font-roboto'}>
+      <div className={'flex flex-col px-10 font-roboto'}>
         <div className="w-[15rem] flex flex-col gap-2">
           <div className="flex gap-1 items-center">
             <div className="flex flex-col gap-1">
@@ -108,10 +176,12 @@ export default function Checkout() {
         </div>
         <p className="italic text-sm mt-2 max-w-[28rem]">Todos los pagos se realizan con transferencia bancaria local argentina. Ya sea en dólares o pesos argentinos.</p>
         <div className="flex gap-2">
-          <button onClick={() => { }} className="w-[15rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Cancelar</button>
-          <button onClick={() => { }} className="w-[15rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Pagar</button>
+          <button onClick={() => {
+            window.location.href = '/';
+          }} className="w-[15rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Cancelar</button>
+          <button onClick={createOrder} className="w-[15rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Pagar</button>
         </div>
-      </form >
+      </div >
       <div className="border-4 rounded-lg p-4 border-blue-400 m-4">
         <img className="w-[20rem]" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
         <p>{product.name}</p>

@@ -4,9 +4,10 @@ type MessageModalProps = {
   message?: string;
   verificationCode?: string;
   onConfirm?: () => void;
+  hideAcceptButton?: boolean;
 }
 
-export default function MessageModal({ Icon, message, onConfirm }: MessageModalProps) {
+export default function MessageModal({ Icon, message, onConfirm, hideAcceptButton }: MessageModalProps) {
   function _onConfirm() {
     onConfirm && onConfirm();
   }
@@ -17,7 +18,7 @@ export default function MessageModal({ Icon, message, onConfirm }: MessageModalP
         {Icon && <span className="text-blue-500 dark:text-white"><Icon size={120} /></span>}
         <p className="mt-4">{message}</p>
         <div className="flex gap-4 mt-4">
-          <Button onClick={_onConfirm}>Aceptar</Button>
+          {!hideAcceptButton && <Button onClick={_onConfirm}>Aceptar</Button>}
         </div>
       </div>
     </>

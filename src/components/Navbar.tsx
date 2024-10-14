@@ -14,7 +14,7 @@ export default function Navbar() {
 
   const [optionsExpanded, setOptionsExpanded] = useState(false);
 
-  function logout(){
+  function logout() {
     localStorage.removeItem('token');
     window.location.href = '/';
   }
@@ -22,7 +22,7 @@ export default function Navbar() {
   return <>
     <nav className={'w-screen flex items-center h-[5rem] px-10 justify-between'}>
       <Link to="/">
-        <img className={'h-[2.5rem] object-contain'} src="horizontal_logo.png" alt="Logo SportsXLife" />
+        <img className={'h-[2.5rem] object-contain'} src="/horizontal_logo.png" alt="Logo SportsXLife" />
       </Link>
       <div className={'flex gap-5 font-roboto text-lg items-center'}>
         <Link to="/tracking">
@@ -42,7 +42,7 @@ export default function Navbar() {
                   <p className="text-md text-center mb-2 break-words">Hola, {user.name}</p>
                   <div className="flex flex-col gap-2">
                     {
-                      user.profile === 'admin' ? <Link target="_blank" className="w-full flex flex-col" to="/admin"><MenuButton> <MdDashboard /> Administrar </MenuButton></Link> : <MenuButton> <MdShoppingCart /> Mis compras</MenuButton>
+                      user.profile === 'admin' ? <Link target="_blank" className="w-full flex flex-col" to="/admin"><MenuButton> <MdDashboard /> Administrar </MenuButton></Link> : <Link target="_blank" className="w-full flex flex-col" to="/dashboard/orders"><MenuButton> <MdShoppingCart /> Mis compras </MenuButton></Link>
                     }
 
                     <MenuButton onClick={logout}> <MdLogout /> Cerrar sesión</MenuButton>

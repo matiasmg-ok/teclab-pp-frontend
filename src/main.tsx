@@ -15,6 +15,7 @@ import AdminBanners from './pages/admin/AdminBanners'
 import NewBanner from './components/admin/NewBanner'
 import ProductPage from './pages/ProductPage'
 import Checkout from './pages/checkout/Checkout'
+import Orders from './pages/dashboard/Orders'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route path="/product" element={<ProductPage />}></Route>
       <Route path="/checkout" element={<Checkout />}></Route>
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
+      <Route path="/dashboard/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>}></Route>
       
       <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>}></Route>
       
