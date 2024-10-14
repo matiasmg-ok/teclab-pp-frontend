@@ -1,4 +1,5 @@
 import { Product } from "./Product";
+import { User } from "./User";
 
 export type Order = {
   id: number,
@@ -15,4 +16,5 @@ export type Order = {
   products: {
     product: Product
   }[],
+  user?: User
 }

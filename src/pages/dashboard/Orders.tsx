@@ -12,7 +12,7 @@ const status = {
   'payment-completed': 'Pagado',
   'in-progress': 'En preparación',
   'shipping': 'En camino',
-  'finished': 'Finalizado',
+  'finished': 'Entregado',
   'cancelled': 'Cancelado'
 }
 
