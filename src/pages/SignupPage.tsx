@@ -45,6 +45,16 @@ export default function SignupPage() {
       const data = await res.json();
       localStorage.setItem('token', JSON.stringify(data));
 
+      if(localStorage.getItem('login-redirect')) {
+        const data = JSON.parse(localStorage.getItem('login-redirect') || '');
+        const now = new Date();
+
+        if(now.getTime() - new Date(data.date).getTime() < 1000 * 60 * 5) {
+          localStorage.removeItem('login-redirect');
+          return window.location.href = data.url;
+        }
+      }
+
       return window.location.href = '/dashboard';
     } else {
       alert('Error al crear el usuario');

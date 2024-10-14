@@ -25,9 +25,6 @@ export default function Navbar() {
         <img className={'h-[2.5rem] object-contain'} src="/horizontal_logo.png" alt="Logo SportsXLife" />
       </Link>
       <div className={'flex gap-5 font-roboto text-lg items-center'}>
-        <Link to="/tracking">
-          <p>Seguir mi envío</p>
-        </Link>
         <Link to="/products">
           <p>Productos</p>
         </Link>

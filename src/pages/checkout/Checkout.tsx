@@ -7,8 +7,8 @@ import { client, useClient } from "../../utils/loggedClient";
 import { useUnloggedClient } from "../../utils/unloggedClient";
 import { useState } from "react";
 import MessageModal from "../../components/modals/MessageModal";
-import { IconType } from "react-icons";
 import { IoMdClock } from "react-icons/io";
+import { PopupContent } from "../../types/PopupContent";
 
 type OrderData = {
   province: string
@@ -40,13 +40,6 @@ export default function Checkout() {
     zip: '',
     shippingAddress: ''
   });
-
-  type PopupContent = {
-    message: string
-    Icon: IconType
-    show: boolean
-    hideAcceptButton?: boolean
-  }
 
   const [popupContent, setPopupContent] = useState<PopupContent>({
     message: '',
@@ -97,7 +90,7 @@ export default function Checkout() {
     }
 
     if(res.status === 201) {
-      return window.location.href = '/dashboard/orders/' + res.data.id;
+      return window.location.href = '/dashboard/orders';
     }
 
   }

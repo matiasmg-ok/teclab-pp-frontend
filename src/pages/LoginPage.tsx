@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   const [{ data: user }] = useClient('/users/whoami');
 
-  if(user) {
+  if (user) {
     window.location.href = '/dashboard';
   }
 
@@ -36,7 +36,18 @@ export default function LoginPage() {
     if (res.status === 200) {
       const data = await res.json();
       localStorage.setItem('token', JSON.stringify(data));
-      window.location.href = '/dashboard';
+
+      if (localStorage.getItem('login-redirect')) {
+        const data = JSON.parse(localStorage.getItem('login-redirect') || '');
+        const now = new Date();
+
+        if (now.getTime() - new Date(data.date).getTime() < 1000 * 60 * 5) {
+          localStorage.removeItem('login-redirect');
+          return window.location.href = data.url;
+        }
+      }
+
+      return window.location.href = '/dashboard';
     } else {
       alert('Error al iniciar sesión');
     }
@@ -79,7 +90,7 @@ export default function LoginPage() {
           <button className="py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Iniciar Sesión</button>
         </form>
         <Link to={"/signup"}>
-        <button className="text-sm mt-2 underline underline-offset-2">o Registrarse</button>
+          <button className="text-sm mt-2 underline underline-offset-2">o Registrarse</button>
         </Link>
       </div>
     </main>
