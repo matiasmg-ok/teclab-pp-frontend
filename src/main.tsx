@@ -17,6 +17,7 @@ import ProductPage from './pages/ProductPage'
 import Checkout from './pages/checkout/Checkout'
 import Orders from './pages/dashboard/Orders'
 import AdminOrders from './pages/admin/AdminOrders'
+import AdminUsers from './pages/admin/AdminUsers'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -36,6 +37,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route path="/admin/new-product" element={<ProtectedAdminRoute><NewProduct /></ProtectedAdminRoute>}></Route>
       <Route path="/admin/edit-product" element={<ProtectedAdminRoute><EditProduct /></ProtectedAdminRoute>}></Route>
       
+      <Route path="/admin/users" element={<ProtectedAdminRoute><AdminUsers /></ProtectedAdminRoute>}></Route>
+
       <Route path="/admin/advertisements" element={<ProtectedAdminRoute><AdminBanners /></ProtectedAdminRoute>}></Route>
       <Route path="/admin/new-advertisement" element={<ProtectedAdminRoute><NewBanner /></ProtectedAdminRoute>}></Route>
       
