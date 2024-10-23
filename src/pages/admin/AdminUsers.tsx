@@ -31,7 +31,7 @@ export default function AdminUsers() {
         Icon={MdDelete}
         onConfirm={async () => {
           setDeletingId(null)
-          const res = await loggedClient.delete(`/advertisements/${deletingId}`)
+          const res = await loggedClient.delete(`/users/${deletingId}`)
           if (res.status === 200) {
             return window.location.reload()
           }
