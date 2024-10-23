@@ -5,7 +5,7 @@ import { ReactNode, useState } from "react";
 import { User } from "../types/User";
 
 function MenuButton({ children, onClick }: { children: ReactNode, onClick?: () => void }) {
-  return <button onClick={onClick} className="bg-blue-300 hover:bg-blue-400 text-black py-2 px-4 rounded transition-all flex items-center gap-2">{children}</button>
+  return <button onClick={onClick} className="bg-blue-300 dark:bg-slate-700 text-black dark:text-white hover:bg-blue-400 py-2 px-4 rounded transition-all flex items-center gap-2">{children}</button>
 }
 
 export default function Navbar() {
@@ -20,9 +20,10 @@ export default function Navbar() {
   }
 
   return <>
-    <nav className={'w-screen flex items-center h-[5rem] px-10 justify-between'}>
+    <nav className={'w-screen flex items-center h-[5rem] px-10 justify-between text-black dark:text-white'}>
       <Link to="/">
-        <img className={'h-[2.5rem] object-contain'} src="/horizontal_logo.png" alt="Logo SportsXLife" />
+      <img className={'h-[2.5rem] dark:hidden object-contain'} src="/horizontal_logo.png" alt="Logo SportsXLife" />
+      <img className={'h-[2.5rem] hidden dark:inline object-contain'} src="/white_horizontal_logo.png" alt="Logo SportsXLife" />
       </Link>
       <div className={'flex gap-5 font-roboto text-lg items-center'}>
         <Link to="/products">
@@ -31,11 +32,11 @@ export default function Navbar() {
         {
           user ?
             <>
-              <div onClick={() => setOptionsExpanded(!optionsExpanded)} className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-200 cursor-pointer">
+              <div onClick={() => setOptionsExpanded(!optionsExpanded)} className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-200 dark:bg-slate-800 cursor-pointer">
                 <MdPerson size={24} />
               </div>
               {
-                optionsExpanded && <div className="w-[14rem] absolute z-50 top-[5rem] right-[1.5rem] p-5 rounded-md bg-blue-200">
+                optionsExpanded && <div className="w-[14rem] absolute z-50 top-[5rem] right-[1.5rem] p-5 rounded-md bg-blue-200 dark:bg-slate-800">
                   <p className="text-md text-center mb-2 break-words">Hola, {user.name}</p>
                   <div className="flex flex-col gap-2">
                     {

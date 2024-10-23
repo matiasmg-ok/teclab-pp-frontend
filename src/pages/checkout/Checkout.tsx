@@ -105,8 +105,8 @@ export default function Checkout() {
         hideAcceptButton={popupContent.hideAcceptButton}
       />
     }
-    <h1 className={'text-center font-roboto text-4xl font-semibold'}>Checkout</h1>
-    <div className="flex flex-row-reverse w-full justify-center mt-10">
+    <h1 className={'text-center font-roboto text-4xl font-semibold text-black dark:text-white'}>Checkout</h1>
+    <div className="flex flex-row-reverse w-full justify-center mt-10 text-black dark:text-white">
       <div className={'flex flex-col px-10 font-roboto'}>
         <div className="w-[15rem] flex flex-col gap-2">
           <div className="flex gap-1 items-center">
@@ -157,13 +157,13 @@ export default function Checkout() {
         <div className="flex flex-col gap-1 mt-2 w-[18rem]">
           <p>Moneda a pagar</p>
           <div className="flex flex-col gap-2">
-            <div onClick={() => setCurrency('usd')} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 cursor-pointer items-center ${currency === 'usd' ? 'border-blue-400' : 'border-blue-100'}`}>
-              <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${currency === 'usd' ? 'bg-blue-400' : 'bg-blue-200'}`}></div>
-              <p><span className="text-sm font-bold bg-blue-200 p-1 px-4 rounded-full">USD</span> Dólar estadounidense</p>
+            <div onClick={() => setCurrency('usd')} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${currency === 'usd' ? 'border-blue-400' : 'border-blue-100'}`}>
+              <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${currency === 'usd' ? 'bg-blue-400 dark:bg-blue-700' : 'bg-blue-200'}`}></div>
+              <p><span className="text-sm font-bold bg-blue-200 dark:bg-blue-700 p-1 px-4 rounded-full">USD</span> Dólar estadounidense</p>
             </div>
-            <div onClick={() => setCurrency('ars')} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 cursor-pointer items-center ${currency === 'ars' ? 'border-blue-400' : 'border-blue-100'}`}>
-              <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${currency === 'ars' ? 'bg-blue-400' : 'bg-blue-200'}`}></div>
-              <p><span className="text-sm font-bold bg-blue-200 p-1 px-4 rounded-full">ARS</span> Peso argentino</p>
+            <div onClick={() => setCurrency('ars')} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${currency === 'ars' ? 'border-blue-400' : 'border-blue-100'}`}>
+              <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${currency === 'ars' ? 'bg-blue-400 dark:bg-blue-700' : 'bg-blue-200'}`}></div>
+              <p><span className="text-sm font-bold bg-blue-200 dark:bg-blue-700 p-1 px-4 rounded-full">ARS</span> Peso argentino</p>
             </div>
           </div>
         </div>

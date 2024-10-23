@@ -24,7 +24,7 @@ export default function Dashboard() {
 
   return <>
     <Navbar />
-    <div className="font-roboto">
+    <div className="font-roboto text-black dark:text-white">
       <h1 className="text-2xl font-semibold text-center">Panel de cliente</h1>
       <div className="mx-auto flex items-center justify-center gap-4 mt-4">
         <Link className={'flex items-center gap-2 py-2 px-2 border-2 border-blue-200'} to="/dashboard/orders">

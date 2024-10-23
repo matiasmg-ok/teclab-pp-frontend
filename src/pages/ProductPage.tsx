@@ -37,7 +37,7 @@ export default function ProductPage() {
   return (
     product && cotization && <>
       <Navbar />
-      <div className="flex justify-center gap-20 px-20 w-full">
+      <div className="flex justify-center gap-20 px-20 w-full text-black dark:text-white">
         <img src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} className="w-[30rem]" />
         <div className="font-roboto flex flex-col gap-2">
           <div onClick={() => window.history.back()} className="mb-4 cursor-pointer flex items-center font-semibold text-xl">

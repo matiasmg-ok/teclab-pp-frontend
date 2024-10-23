@@ -30,16 +30,16 @@ export default function ProductList() {
 
   if (!cotization) return <>Cargando...</>
 
-  return <>
+  return <div className="text-black dark:text-white">
     <h2 className="text-3xl font-roboto text-center mb-5 font-medium">Productos</h2>
     <form onClick={handleSearch} className="w-[40rem] mx-auto flex">
-      <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Buscar..." className={'py-2 px-4 font-roboto border-2 border-blue-200 w-full outline-blue-400'} />
-      <button className={'bg-blue-400 px-10 font-roboto text-white hover:bg-blue-500 transition-all'}>Buscar</button>
+      <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Buscar..." className={'py-2 px-4 font-roboto border-2 bg-white dark:bg-slate-800 dark:border-blue-900 border-blue-200 w-full outline-blue-400'} />
+      <button className={'bg-blue-400 dark:bg-slate-800 px-10 font-roboto text-white hover:bg-blue-500 transition-all'}>Buscar</button>
     </form>
     <div className="flex flex-wrap gap-2 self-start w-full md:px-20">
       {
         products && products.map(product => <ProductCard key={product.id} product={product} cotization={cotization.price} />)
       }
     </div>
-  </>
+  </div>
 }

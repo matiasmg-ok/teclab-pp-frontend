@@ -63,9 +63,10 @@ export default function SignupPage() {
 
   return <>
     <Navbar />
-    <main className={'w-screen font-roboto flex justify-center items-center'}>
-      <div className={'w-[28rem] h-[35rem] md:mb-24 bg-blue-50 rounded-lg border-2 border-blue-500 flex flex-col items-center py-10'}>
-        <img src="horizontal_logo.png" alt="Logo de SportsXLife" />
+    <main className={'w-screen font-roboto flex justify-center items-center text-black dark:text-white'}>
+      <div className={'w-[28rem] h-[35rem] md:mb-24 bg-blue-50 dark:bg-slate-800 rounded-lg border-2 border-blue-500 flex flex-col items-center py-10'}>
+      <img src="white_horizontal_logo.png" className="hidden dark:inline w-[10rem]" alt="Logo de SportsXLife" />
+      <img src="horizontal_logo.png" className="dark:hidden w-[10rem]" alt="Logo de SportsXLife" />
         <h1 className="text-2xl font-medium mt-4">Registrarse</h1>
         <form onSubmit={signUp} className={'flex flex-col items-center gap-2 mt-4'}>
           <Input props={{

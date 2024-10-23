@@ -56,8 +56,9 @@ export default function LoginPage() {
   return <>
     <Navbar />
     <main className={'w-screen font-roboto flex justify-center items-center'}>
-      <div className={'w-[28rem] h-[30rem] md:mb-32 bg-blue-50 rounded-lg border-2 border-blue-500 flex flex-col items-center py-10'}>
-        <img src="horizontal_logo.png" alt="Logo de SportsXLife" />
+      <div className={'w-[28rem] h-[30rem] md:mb-32 bg-blue-50 dark:bg-slate-800 dark:text-white rounded-lg border-2 border-blue-500 flex flex-col items-center py-10'}>
+        <img src="white_horizontal_logo.png" className="hidden dark:inline w-[10rem]" alt="Logo de SportsXLife" />
+        <img src="horizontal_logo.png" className="dark:hidden w-[10rem]" alt="Logo de SportsXLife" />
         <h1 className="text-2xl font-medium mt-4">Iniciar Sesión</h1>
         <form onSubmit={login} className={'flex flex-col items-center gap-2 mt-4'}>
           <Input props={{

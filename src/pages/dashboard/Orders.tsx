@@ -21,7 +21,7 @@ function OrderCard({ order, setPopupContent }: { order: Order, setPopupContent: 
   const product = order.products[0].product;
 
   return <>
-    <div className={'flex items-center w-6/12 min-h-[15rem] border-4 border-blue-200'}>
+    <div className={'flex items-center w-6/12 min-h-[15rem] border-4 border-blue-200 text-black dark:text-white'}>
       <img className="w-[10rem] h-[10rem] mx-10" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
       <div className="">
         <h1 className="text-xl font-semibold">{product.name}</h1>
@@ -87,7 +87,7 @@ export default function Orders() {
     }
 
     <div className="font-roboto">
-      <h1 className="text-2xl font-semibold text-center">Mis compras</h1>
+      <h1 className="text-2xl font-semibold text-center text-black dark:text-white">Mis compras</h1>
       <div className="flex flex-col items-center mt-10 gap-2">
         {
           orders.map((order) => {

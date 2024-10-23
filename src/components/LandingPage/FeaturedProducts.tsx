@@ -11,7 +11,7 @@ export default function FeaturedProducts() {
 
   return <>
     {
-      products && <div className="flex flex-col py-5">
+      products && <div className="flex flex-col py-5 text-black dark:text-white">
         <h2 className="text-3xl font-roboto text-center">Novedades</h2>
         <div className="flex gap-4 items-center justify-center">
           {products?.map((product, idx) => {
