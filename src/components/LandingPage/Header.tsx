@@ -22,7 +22,7 @@ export default function Header() {
   return advertisements?.length ? <>
     <header>
       <Link to={`${advertisements[currentAdvertisementIndex].redirectUrl}`}>
-        <img src={advertisements && `${import.meta.env.VITE_BACKEND_URL}/${advertisements[currentAdvertisementIndex]?.imageUrl}` || ''} className={'w-full mx-auto max-w-[1280px] h-[25rem] flex items-center justify-center object-contain'}>
+        <img src={advertisements && `${import.meta.env.VITE_BACKEND_URL}/${advertisements[currentAdvertisementIndex]?.imageUrl}` || ''} className={'w-full mx-auto max-w-[1280px] md:h-[25rem] flex items-center justify-center object-contain'}>
         </img>
       </Link>
     </header>

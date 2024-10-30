@@ -13,7 +13,7 @@ export default function FeaturedProducts() {
     {
       products && <div className="flex flex-col py-5 text-black dark:text-white">
         <h2 className="text-3xl font-roboto text-center">Novedades</h2>
-        <div className="flex gap-4 items-center justify-center">
+        <div className="flex flex-wrap gap-4 items-center justify-center">
           {products?.map((product, idx) => {
             if (idx > 5) return;
             return <ProductCard key={product.id} product={product} cotization={cotization?.price || 0} />;

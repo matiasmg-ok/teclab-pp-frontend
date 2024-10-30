@@ -106,10 +106,10 @@ export default function Checkout() {
       />
     }
     <h1 className={'text-center font-roboto text-4xl font-semibold text-black dark:text-white'}>Checkout</h1>
-    <div className="flex flex-row-reverse w-full justify-center mt-10 text-black dark:text-white">
+    <div className="flex flex-col-reverse md:flex-row-reverse w-full justify-center mt-10 text-black dark:text-white">
       <div className={'flex flex-col px-10 font-roboto'}>
         <div className="w-[15rem] flex flex-col gap-2">
-          <div className="flex gap-1 items-center">
+          <div className="flex flex-wrap md:flex-nowrap gap-1 items-center">
             <div className="flex flex-col gap-1">
               <p>Provincia</p>
               <Input props={{
@@ -131,7 +131,7 @@ export default function Checkout() {
               }} />
             </div>
           </div>
-          <div className="flex gap-1 items-center">
+          <div className="flex flex-wrap md:flex-nowrap gap-1 items-center">
             <div className="flex flex-col gap-1">
               <p>Calle y número</p>
               <Input props={{
@@ -175,8 +175,8 @@ export default function Checkout() {
           <button onClick={createOrder} className="w-[15rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Pagar</button>
         </div>
       </div >
-      <div className="border-4 rounded-lg p-4 border-blue-400 m-4">
-        <img className="w-[20rem]" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
+      <div className="border-4 flex items-start justify-center flex-col rounded-lg p-4 border-blue-400 m-4">
+        <img className="w-[20rem] mx-auto" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
         <p>{product.name}</p>
         <p className="text-lg font-medium">TOTAL USD ${Math.floor(product.price)}</p>
         <p className="text-lg font-medium">TOTAL ARS ${(product.price * cotization?.price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} <span className="italic text-sm">(TC: ${cotization?.price}/usd)</span></p>

@@ -37,10 +37,14 @@ export default function ProductPage() {
   return (
     product && cotization && <>
       <Navbar />
-      <div className="flex justify-center gap-20 px-20 w-full text-black dark:text-white">
+      <div onClick={() => window.history.back()} className="mb-4 cursor-pointer flex md:hidden text-white px-5 items-center font-semibold text-xl">
+        <MdArrowBackIos size={32} />
+        <p>Volver atrás</p>
+      </div>
+      <div className="flex flex-col md:flex-row justify-center gap-20 px-5 md:px-20 w-full text-black dark:text-white">
         <img src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} className="w-[30rem]" />
         <div className="font-roboto flex flex-col gap-2">
-          <div onClick={() => window.history.back()} className="mb-4 cursor-pointer flex items-center font-semibold text-xl">
+          <div onClick={() => window.history.back()} className="mb-4 cursor-pointer hidden md:flex items-center font-semibold text-xl">
             <MdArrowBackIos size={32} />
             <p>Volver atrás</p>
           </div>
@@ -49,7 +53,7 @@ export default function ProductPage() {
           <h3 className={'font-semibold text-2xl'}>USD {product.price}</h3>
           <p className="text-lg font-medium">AR${(product.price * cotization?.price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")} <span className="italic text-sm">(TC: ${cotization?.price}/usd)</span></p>
           <p>{product.description}</p>
-          <button onClick={createOrder} className="w-[7rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Comprar</button>
+          <button onClick={createOrder} className="md:w-[7rem] py-2 px-5 bg-blue-400 rounded-sm text-white mt-5 font-medium text-lg hover:bg-blue-500 transition-all">Comprar</button>
         </div>
       </div>
       <Footer />
