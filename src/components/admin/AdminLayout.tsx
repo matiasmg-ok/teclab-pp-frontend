@@ -18,7 +18,7 @@ function SidebarOption({ Icon, option, url, includeArrow }: { Icon: IconType, op
   </Link>
 }
 
-export default function AdminLayout({ user, children }: { user: User, children: ReactNode }) {
+export default function AdminLayout({ children }: { user: User, children: ReactNode }) {
 
   function logout() {
     localStorage.removeItem('token');
