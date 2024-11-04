@@ -9,7 +9,6 @@ import Button from "../../components/Button";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
 import { RequestingContent } from "../../types/RequestingContent";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import Input from "../../components/Input";
 
 const status = {
   'payment-pending': 'Pago pendiente de confirmación',
@@ -169,7 +168,7 @@ function OrderCard({ order, setPopupContent, setRequesting }: { order: Order, se
 function StatusFilterElement({ setFilters, filters, filterId }: { setFilters: Dispatch<SetStateAction<FiltersType>>, filters: FiltersType, filterId: 'payment-pending' | 'payment-completed' | 'in-progress' | 'shipping' | 'finished' | 'cancelled' | null }) {
   return (
     <>
-      <div onClick={() => setFilters(prev => ({ ...prev, status: filterId }))} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${filters.status === filterId ? 'border-blue-400' : 'border-blue-100'}`}>
+      <div onClick={() => setFilters(prev => ({ ...prev, status: filterId }))} className={`flex rounded-full gap-2 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${filters.status === filterId ? 'border-blue-400' : 'border-blue-100'}`}>
         <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${filters.status === filterId ? 'bg-blue-400 dark:bg-blue-700' : 'bg-blue-200'}`}></div>
         <p>{(filterId && status[filterId]) || 'Sin filtro'}</p>
       </div>

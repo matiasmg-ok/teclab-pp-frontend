@@ -702,8 +702,8 @@ video {
   max-height: 80rem;
 }
 
-.min-h-\[11rem\] {
-  min-height: 11rem;
+.min-h-\[14rem\] {
+  min-height: 14rem;
 }
 
 .min-h-\[15rem\] {
@@ -720,14 +720,6 @@ video {
 
 .min-h-screen {
   min-height: 100vh;
-}
-
-.min-h-\[30rem\] {
-  min-height: 30rem;
-}
-
-.min-h-\[14rem\] {
-  min-height: 14rem;
 }
 
 .w-12 {
