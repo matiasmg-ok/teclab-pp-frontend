@@ -1,28 +1,30 @@
-import { MdInfo, MdLocalShipping, MdPayment } from "react-icons/md";
+import { MdError, MdInfo, MdLocalShipping, MdPayment } from "react-icons/md";
 import AdminLayout from "../../components/admin/AdminLayout";
 import { client, useClient } from "../../utils/loggedClient";
 import { Order } from "../../types/Order";
 import { PopupContent } from "../../types/PopupContent";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import MessageModal from "../../components/modals/MessageModal";
 import Button from "../../components/Button";
 import ConfirmationModal from "../../components/modals/ConfirmationModal";
 import { RequestingContent } from "../../types/RequestingContent";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import Input from "../../components/Input";
 
+const status = {
+  'payment-pending': 'Pago pendiente de confirmación',
+  'payment-completed': 'Pagado',
+  'in-progress': 'En preparación',
+  'shipping': 'En camino',
+  'finished': 'Entregado/Finalizado',
+  'cancelled': 'Cancelado'
+}
 function OrderCard({ order, setPopupContent, setRequesting }: { order: Order, setPopupContent: React.Dispatch<React.SetStateAction<PopupContent>>, setRequesting: React.Dispatch<React.SetStateAction<RequestingContent>> }) {
   const product = order.products[0].product;
 
-  const status = {
-    'payment-pending': 'Pago pendiente de confirmación',
-    'payment-completed': 'Pagado',
-    'in-progress': 'En preparación',
-    'shipping': 'En camino',
-    'finished': 'Entregado/Finalizado',
-    'cancelled': 'Cancelado'
-  }
 
   return <>
-    <div className={'flex items-center w-[60rem] min-h-[11rem] border-4 border-blue-200 dark:border-slate-800 rounded-lg'}>
+    <div className={'flex items-center w-[60rem] min-h-[14rem] border-4 border-blue-200 dark:border-slate-800 rounded-lg'}>
       <img className="w-[5rem] h-[5rem] mx-10" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
       <div className="py-2">
         <h1 className="text-xl font-semibold">{product.name}</h1>
@@ -164,9 +166,38 @@ function OrderCard({ order, setPopupContent, setRequesting }: { order: Order, se
   </>
 }
 
+function StatusFilterElement({ setFilters, filters, filterId }: { setFilters: Dispatch<SetStateAction<FiltersType>>, filters: FiltersType, filterId: 'payment-pending' | 'payment-completed' | 'in-progress' | 'shipping' | 'finished' | 'cancelled' | null }) {
+  return (
+    <>
+      <div onClick={() => setFilters(prev => ({ ...prev, status: filterId }))} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${filters.status === filterId ? 'border-blue-400' : 'border-blue-100'}`}>
+        <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${filters.status === filterId ? 'bg-blue-400 dark:bg-blue-700' : 'bg-blue-200'}`}></div>
+        <p>{(filterId && status[filterId]) || 'Sin filtro'}</p>
+      </div>
+    </>
+  )
+}
+
+type FiltersType = {
+  status?: 'payment-pending' | 'payment-completed' | 'in-progress' | 'shipping' | 'finished' | 'cancelled' | null,
+  currency?: 'usd' | 'ars' | null
+}
+
+function generateSearchUrl({ status, currency }: FiltersType) {
+  let url = '/orders?1=1';
+  if (status) url += `&status=${status}`;
+  if (currency) url += `&currency=${currency}`;
+  return url;
+}
+
 export default function AdminOrders() {
   const [{ data: user, loading, error }] = useClient('/users/whoami');
-  const [{ data: orders }] = useClient('/orders')
+  const [{ data: ordersData }] = useClient('/orders');
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [filters, setFilters] = useState<FiltersType>({ status: null, currency: null });
+
+  useEffect(() => {
+    setOrders(ordersData);
+  }, [ordersData]);
 
   const [popupContent, setPopupContent] = useState<PopupContent>({
     message: '',
@@ -181,6 +212,24 @@ export default function AdminOrders() {
     action: () => { },
     show: false
   })
+
+  const [mobileMenuDeployed, setMobileMenuDeployed] = useState<boolean>(false);
+
+
+  async function refreshOrders() {
+    const res = await client.get(generateSearchUrl({ currency: filters.currency, status: filters.status }));
+
+    if (res.status === 200) {
+      return setOrders(res.data);
+    }
+
+    setPopupContent({
+      message: res.data.message,
+      Icon: MdError,
+      show: true,
+      hideAcceptButton: false
+    })
+  }
 
   if (loading) {
     return <p>Cargando...</p>
@@ -216,13 +265,61 @@ export default function AdminOrders() {
       />
     }
 
-    <div className="flex flex-col gap-2 py-4 px-4 text-black dark:text-white">
-      <h1 className={'text-4xl font-roboto font-medium text-black dark:text-white'}>Pedidos</h1>
-      {
-        orders.map((order: Order) => {
-          return <OrderCard key={order.id} order={order} setRequesting={setRequesting} setPopupContent={setPopupContent} />
-        })
-      }
+    <div className="flex flex-row items-start gap-2 py-4 px-4 text-black dark:text-white">
+      <div className="flex flex-col items-center md:w-[20rem]">
+        <h1 className={'text-4xl self-start mb-4 font-roboto font-medium text-black dark:text-white'}>Pedidos</h1>
+        <div onClick={() => setMobileMenuDeployed(!mobileMenuDeployed)} className="flex md:hidden items-center justify-between py-4 bg-blue-200 dark:bg-slate-700 w-full px-10">
+          <p className="text-lg font-semibold font-roboto">Filtros</p>
+          {
+            !mobileMenuDeployed ?
+              <IoIosArrowDown size={20} />
+              :
+              <IoIosArrowUp size={20} />
+          }
+        </div>
+        <div className={`flex-col w-full gap-4 md:flex ${mobileMenuDeployed ? 'flex' : 'hidden'} bg-blue-200 dark:bg-slate-700 md:bg-transparent pb-4 md:pb-0 md:dark:bg-transparent items-center`}>
+          <div className={'flex flex-col gap-2'}>
+            <p className="text-lg text-center mb-2">Moneda de pago</p>
+            <div className="flex flex-col gap-2">
+              <div onClick={() => setFilters(prev => ({ ...prev, currency: 'usd' }))} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${filters.currency === 'usd' ? 'border-blue-400' : 'border-blue-100'}`}>
+                <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${filters.currency === 'usd' ? 'bg-blue-400 dark:bg-blue-700' : 'bg-blue-200'}`}></div>
+                <p><span className="text-sm font-bold bg-blue-200 dark:bg-blue-700 p-1 px-4 rounded-full">USD</span> Dólar estadounidense</p>
+              </div>
+              <div onClick={() => setFilters(prev => ({ ...prev, currency: 'ars' }))} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${filters.currency === 'ars' ? 'border-blue-400' : 'border-blue-100'}`}>
+                <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${filters.currency === 'ars' ? 'bg-blue-400 dark:bg-blue-700' : 'bg-blue-200'}`}></div>
+                <p><span className="text-sm font-bold bg-blue-200 dark:bg-blue-700 p-1 px-4 rounded-full">ARS</span> Peso argentino</p>
+              </div>
+              <div onClick={() => setFilters(prev => ({ ...prev, currency: null }))} className={`flex rounded-full gap-1 border-2 py-2 px-2 bg-gray-50 dark:bg-slate-800 cursor-pointer items-center ${filters.currency === null ? 'border-blue-400' : 'border-blue-100'}`}>
+                <div className={`w-[1.4rem] h-[1.4rem] rounded-full ${filters.currency === null ? 'bg-blue-400 dark:bg-blue-700' : 'bg-blue-200'}`}></div>
+                <p><span className="text-sm font-bold bg-blue-200 dark:bg-blue-700 p-1 px-4 rounded-full">ALL</span> Sin filtro</p>
+              </div>
+            </div>
+            <div className={'flex flex-col'}>
+              <p className="text-lg text-center mb-2">Estado del pedido</p>
+              <div className="flex flex-col gap-2">
+                <StatusFilterElement setFilters={setFilters} filters={filters} filterId={'payment-pending'} />
+                <StatusFilterElement setFilters={setFilters} filters={filters} filterId={'payment-completed'} />
+                <StatusFilterElement setFilters={setFilters} filters={filters} filterId={'in-progress'} />
+                <StatusFilterElement setFilters={setFilters} filters={filters} filterId={'shipping'} />
+                <StatusFilterElement setFilters={setFilters} filters={filters} filterId={'finished'} />
+                <StatusFilterElement setFilters={setFilters} filters={filters} filterId={'cancelled'} />
+                <StatusFilterElement setFilters={setFilters} filters={filters} filterId={null} />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <Button onClick={refreshOrders}>Aplicar filtros</Button>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col max-h-[80rem] gap-2 overflow-y-auto">
+        {
+          orders.map((order: Order) => {
+            return <OrderCard key={order.id} order={order} setRequesting={setRequesting} setPopupContent={setPopupContent} />
+          })
+        }
+      </div>
     </div>
   </AdminLayout>
 
