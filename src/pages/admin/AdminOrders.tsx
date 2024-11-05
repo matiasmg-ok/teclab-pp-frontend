@@ -23,8 +23,8 @@ function OrderCard({ order, setPopupContent, setRequesting }: { order: Order, se
 
 
   return <>
-    <div className={'flex items-center w-[60rem] min-h-[14rem] border-4 border-blue-200 dark:border-slate-800 rounded-lg'}>
-      <img className="w-[5rem] h-[5rem] mx-10" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
+    <div className={'flex flex-col lg:flex-row items-center w-full lg:w-[60rem] lg:min-h-[14rem] border-4 border-blue-200 dark:border-slate-800 rounded-lg'}>
+      <img className="w-[10rem] h-[10rem] my-4 lg:w-[5rem] lg:h-[5rem] mx-10" src={`${import.meta.env.VITE_BACKEND_URL}/${product.imageUrl}`} alt={product.name} />
       <div className="py-2">
         <h1 className="text-xl font-semibold">{product.name}</h1>
         <p>Comprado el {new Date(order.createdAt).toLocaleDateString()}</p>
@@ -32,7 +32,7 @@ function OrderCard({ order, setPopupContent, setRequesting }: { order: Order, se
 
         <p>Moneda elegida: {order.currency === 'usd' ? 'Dólar estadounidense' : 'Peso argentino'}</p>
         <p>Monto total: ${order.price}</p>
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-2 mt-2">
           {
             order.status === 'shipping' && <>
               <Button onClick={() => {
@@ -264,10 +264,10 @@ export default function AdminOrders() {
       />
     }
 
-    <div className="flex flex-row items-start gap-2 py-4 px-4 text-black dark:text-white">
-      <div className="flex flex-col items-center md:w-[20rem]">
+    <div className="flex flex-col lg:flex-row items-start gap-2 py-4 px-4 text-black dark:text-white">
+      <div className="flex flex-col w-full items-center lg:w-[20rem]">
         <h1 className={'text-4xl self-start mb-4 font-roboto font-medium text-black dark:text-white'}>Pedidos</h1>
-        <div onClick={() => setMobileMenuDeployed(!mobileMenuDeployed)} className="flex md:hidden items-center justify-between py-4 bg-blue-200 dark:bg-slate-700 w-full px-10">
+        <div onClick={() => setMobileMenuDeployed(!mobileMenuDeployed)} className="flex lg:hidden items-center justify-between py-4 bg-blue-200 dark:bg-slate-700 w-full px-10">
           <p className="text-lg font-semibold font-roboto">Filtros</p>
           {
             !mobileMenuDeployed ?
@@ -276,7 +276,7 @@ export default function AdminOrders() {
               <IoIosArrowUp size={20} />
           }
         </div>
-        <div className={`flex-col w-full gap-4 md:flex ${mobileMenuDeployed ? 'flex' : 'hidden'} bg-blue-200 dark:bg-slate-700 md:bg-transparent pb-4 md:pb-0 md:dark:bg-transparent items-center`}>
+        <div className={`flex-col w-full gap-4 lg:flex ${mobileMenuDeployed ? 'flex' : 'hidden'} bg-blue-200 dark:bg-slate-700 lg:bg-transparent pb-4 lg:pb-0 lg:dark:bg-transparent items-center`}>
           <div className={'flex flex-col gap-2'}>
             <p className="text-lg text-center mb-2">Moneda de pago</p>
             <div className="flex flex-col gap-2">
@@ -312,7 +312,7 @@ export default function AdminOrders() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col max-h-[80rem] gap-2 overflow-y-auto">
+      <div className="flex flex-col w-full lg:w-min lg:max-h-[80rem] gap-2 overflow-y-auto">
         {
           orders.map((order: Order) => {
             return <OrderCard key={order.id} order={order} setRequesting={setRequesting} setPopupContent={setPopupContent} />

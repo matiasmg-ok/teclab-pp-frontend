@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { User } from "../../types/User";
 import { IconType } from "react-icons";
 import { Link } from "react-router-dom";
-import { MdCategory, MdHome, MdImage, MdKeyboardArrowRight, MdLogout, MdPeople, MdSell, MdWeb } from "react-icons/md";
+import { MdCategory, MdClose, MdHome, MdImage, MdKeyboardArrowRight, MdLogout, MdMenu, MdPeople, MdSell, MdWeb } from "react-icons/md";
 
 function SidebarOption({ Icon, option, url, includeArrow }: { Icon: IconType, option: string, url: string, includeArrow?: boolean }) {
   return <Link to={url}>
@@ -25,8 +25,48 @@ export default function AdminLayout({ children }: { user: User, children: ReactN
     window.location.href = '/';
   }
 
-  return <div className={'flex'}>
-    <aside className={'w-[20rem] min-h-screen bg-blue-100 dark:bg-black'}>
+  const [mobileMenuExpanded, setMobileMenuExpanded] = useState(false);
+
+  return <div className={'flex flex-col md:flex-row'}>
+    <nav className={`${mobileMenuExpanded ? 'hidden' : 'flex md:hidden'} items-center justify-between px-10 w-screen h-[7rem] bg-blue-100 dark:bg-black`}>
+      <img className="w-[8rem] py-10 dark:hidden" src="/horizontal_logo.png" alt="Logo de SportsXLife" />
+      <img className="w-[8rem] py-10 hidden dark:inline" src="/white_horizontal_logo.png" alt="Logo de SportsXLife" />
+      <MdMenu onClick={() => setMobileMenuExpanded(!mobileMenuExpanded)} size={40} className="text-blue-500 dark:text-white" />
+    </nav>
+    {
+      mobileMenuExpanded ? <>
+        <div className="fixed z-50 top-0 left-0 w-screen h-screen bg-blue-100 dark:bg-black bg-opacity-50 backdrop-blur-xl">
+          <div className="flex items-center justify-between px-10 md:hidden w-screen h-[7rem] bg-blue-100 dark:bg-black">
+            <Link to="/">
+              <img className="w-[8rem] py-10 dark:hidden" src="/horizontal_logo.png" alt="Logo de SportsXLife" />
+              <img className="w-[8rem] py-10 hidden dark:inline" src="/white_horizontal_logo.png" alt="Logo de SportsXLife" />
+            </Link>
+            <button className="text-black dark:text-white" onClick={() => setMobileMenuExpanded(false)}>
+              <MdClose size={40} />
+            </button>
+          </div>
+
+          <div className={'flex flex-col text-black dark:text-white mt-20 items-center justify-center gap-7 font-roboto font-semibold text-2xl uppercase '}>
+            <Link to="/admin">
+              <p className="animate-fade-down animate-delay-150 animate-duration-100">Inicio</p>
+            </Link>
+            <Link to="/admin/users">
+              <p className="animate-fade-down animate-delay-150 animate-duration-100">Usuarios</p>
+            </Link>
+            <Link to="/admin/advertisements">
+              <p className="animate-fade-down animate-delay-150 animate-duration-100">Banners</p>
+            </Link>
+            <Link to="/admin/products">
+              <p className="animate-fade-down animate-delay-150 animate-duration-100">Productos</p>
+            </Link>
+            <Link to="/admin/orders">
+              <p className="animate-fade-down animate-delay-150 animate-duration-100">Pedidos</p>
+            </Link>
+          </div>
+        </div>
+      </> : <></>
+    }
+    <aside className={'hidden md:inline w-[20rem] min-h-screen bg-blue-100 dark:bg-black'}>
       <div className="flex items-center justify-center">
         <img className="w-[10rem] py-10 dark:hidden" src="/horizontal_logo.png" alt="Logo de SportsXLife" />
         <img className="w-[10rem] py-10 hidden dark:inline" src="/white_horizontal_logo.png" alt="Logo de SportsXLife" />

@@ -29,7 +29,7 @@ export default function AdminProducts() {
           </Button>
         </Link>
       </div>
-      <div className="flex gap-4 flex-wrap mt-4">
+      <div className="flex gap-4 flex-col w-full lg:flex-row lg:flex-wrap mt-4">
         {products && products.map((product: Product) => <AdminProductCard key={product.id} product={product} />)}
       </div>
     </div>

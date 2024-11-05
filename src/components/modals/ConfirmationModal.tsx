@@ -36,7 +36,7 @@ export default function ConfirmationModal({ title, Icon, message, verificationMe
   }
 
   return <>
-    <div className="absolute rounded-lg text-black dark:text-white font-roboto min-w-[20rem] px-10 py-10 min-h-[15rem] flex flex-col items-center justify-center top-[50%] translate-x-[-50%] translate-y-[-50%] left-[50%] bg-blue-100 dark:bg-slate-700 z-10">
+    <div className="fixed rounded-lg text-black dark:text-white font-roboto min-w-[20rem] px-10 py-10 min-h-[15rem] flex flex-col items-center justify-center top-[50%] translate-x-[-50%] translate-y-[-50%] left-[50%] bg-blue-100 dark:bg-slate-700 z-10">
       <p className="text-xl mb-2">{title}</p>
       {Icon && <span className="text-blue-500 dark:text-white"><Icon size={120} /></span>}
       <p>{message}</p>
